@@ -3,6 +3,8 @@ package me.aborozdykh.springfirst.dao.impl;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import me.aborozdykh.springfirst.dao.UserDao;
 import me.aborozdykh.springfirst.exceptions.DataProcessingException;
 import me.aborozdykh.springfirst.models.User;
@@ -35,6 +37,20 @@ public class UserDaoImpl implements UserDao {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public User get(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<User> cr = cb.createQuery(User.class);
+            Root<User> root = cr.from(User.class);
+            Predicate userPredicate = cb.equal(root.get("id"), id);
+            cr.where(userPredicate);
+            return session.createQuery(cr).uniqueResult();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get user with id = " + id, e);
         }
     }
 
