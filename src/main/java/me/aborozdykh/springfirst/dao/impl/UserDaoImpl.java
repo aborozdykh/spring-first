@@ -50,7 +50,7 @@ public class UserDaoImpl implements UserDao {
             cr.where(userPredicate);
             return session.createQuery(cr).uniqueResult();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get user with id = " + id, e);
+            throw new DataProcessingException("Can't get user with id: " + id, e);
         }
     }
 
