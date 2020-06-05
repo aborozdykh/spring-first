@@ -9,11 +9,11 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"me.aborozdykh.springfirst.controllers"})
+@ComponentScan(basePackages = {"me.aborozdykh.springfirst.controller"})
 public class WebConfig {
 
     @Bean
-    public InternalResourceViewResolver resolver() {
+    public InternalResourceViewResolver getResolver() {
         var resolver = new InternalResourceViewResolver();
         resolver.setViewClass(JstlView.class);
         resolver.setPrefix("/WEB-INF/views/");

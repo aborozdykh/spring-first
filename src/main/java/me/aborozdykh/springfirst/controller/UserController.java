@@ -1,10 +1,10 @@
-package me.aborozdykh.springfirst.controllers;
+package me.aborozdykh.springfirst.controller;
 
 import java.util.LinkedList;
 import java.util.List;
 import me.aborozdykh.springfirst.dto.UserResponseDto;
 import me.aborozdykh.springfirst.models.User;
-import me.aborozdykh.springfirst.service.impl.UserServiceImpl;
+import me.aborozdykh.springfirst.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    private final UserService userService;
 
     @Autowired
-    private UserServiceImpl userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/inject")
     public String inject() {
@@ -40,7 +43,7 @@ public class UserController {
         return list;
     }
 
-    public UserResponseDto getDtoFromUser(User user) {
+    private UserResponseDto getDtoFromUser(User user) {
         var userResponseDto = new UserResponseDto();
         userResponseDto.setEmail(user.getEmail());
         userResponseDto.setPassword(user.getPassword());
